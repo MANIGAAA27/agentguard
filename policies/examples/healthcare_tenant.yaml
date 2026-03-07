@@ -1,0 +1,36 @@
+name: healthcare_tenant
+version: "1.0.0"
+description: Policy set for healthcare tenants with strict compliance requirements.
+tenant_id: healthcare-org
+rules:
+  - id: hipaa-pii-block
+    description: Block any request containing patient PII
+    scope: tenant
+    condition:
+      has_pii: true
+    decision: deny
+    priority: 1
+
+  - id: require-medical-grounding
+    description: All medical responses must be grounded in approved sources
+    scope: tenant
+    condition:
+      topic: medical
+      grounded: false
+    decision: deny
+    priority: 5
+
+  - id: no-medical-advice
+    description: Warn when output could be interpreted as medical advice
+    scope: tenant
+    condition:
+      contains_medical_advice: true
+    decision: escalate
+    priority: 10
+
+  - id: audit-all-actions
+    description: All actions in healthcare context require audit logging
+    scope: tenant
+    condition: {}
+    decision: allow
+    priority: 100

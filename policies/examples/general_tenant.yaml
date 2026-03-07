@@ -1,0 +1,28 @@
+name: general_tenant
+version: "1.0.0"
+description: General-purpose policy set for standard enterprise tenants.
+tenant_id: null
+rules:
+  - id: block-prompt-injection
+    description: Block all detected prompt injection attempts
+    scope: global
+    condition:
+      input_check_failed: prompt_injection
+    decision: deny
+    priority: 1
+
+  - id: rate-limit-warning
+    description: Warn when tenant approaches rate limit
+    scope: tenant
+    condition:
+      rate_limit_usage_pct:
+        $gt: 80
+    decision: warn
+    priority: 50
+
+  - id: allow-standard-operations
+    description: Allow all standard operations that pass guardrails
+    scope: global
+    condition: {}
+    decision: allow
+    priority: 100

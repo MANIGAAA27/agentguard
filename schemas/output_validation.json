@@ -1,0 +1,29 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "OutputValidationResponse",
+  "type": "object",
+  "required": ["correlation_id", "decision", "checks"],
+  "properties": {
+    "correlation_id": { "type": "string" },
+    "decision": {
+      "type": "string",
+      "enum": ["pass", "repair", "reject", "escalate"]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["check_name", "passed", "decision", "reason"],
+        "properties": {
+          "check_name": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "decision": { "type": "string" },
+          "reason": { "type": "string" },
+          "severity": { "type": "string" },
+          "metadata": { "type": "object" }
+        }
+      }
+    },
+    "metadata": { "type": "object" }
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "SlopScoreResult",
+  "type": "object",
+  "required": ["score", "decision", "components"],
+  "properties": {
+    "score": { "type": "number", "minimum": 0, "maximum": 1 },
+    "decision": {
+      "type": "string",
+      "enum": ["pass", "repair", "reject"]
+    },
+    "components": {
+      "type": "object",
+      "required": [
+        "grounding_coverage",
+        "schema_compliance",
+        "unsupported_claim_ratio",
+        "genericity_score",
+        "policy_risk_score",
+        "action_risk_score"
+      ],
+      "properties": {
+        "grounding_coverage": { "type": "number", "minimum": 0, "maximum": 1 },
+        "schema_compliance": { "type": "number", "minimum": 0, "maximum": 1 },
+        "unsupported_claim_ratio": { "type": "number", "minimum": 0, "maximum": 1 },
+        "genericity_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "policy_risk_score": { "type": "number", "minimum": 0, "maximum": 1 },
+        "action_risk_score": { "type": "number", "minimum": 0, "maximum": 1 }
+      }
+    },
+    "metadata": { "type": "object" }
+  }
+}

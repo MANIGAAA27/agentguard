@@ -1,0 +1,22 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "ActionAuthorizeResponse",
+  "type": "object",
+  "required": ["correlation_id", "decision", "risk_level", "risk_score", "reason"],
+  "properties": {
+    "correlation_id": { "type": "string" },
+    "decision": {
+      "type": "string",
+      "enum": ["allow", "deny", "require-approval", "dry-run", "escalate"]
+    },
+    "risk_level": {
+      "type": "string",
+      "enum": ["low", "medium", "high", "critical"]
+    },
+    "risk_score": { "type": "number", "minimum": 0, "maximum": 1 },
+    "reason": { "type": "string" },
+    "requires_approval": { "type": "boolean" },
+    "dry_run": { "type": "boolean" },
+    "metadata": { "type": "object" }
+  }
+}

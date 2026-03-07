@@ -1,0 +1,14 @@
+---
+description: Read and update project memory so context persists across chat sessions and role handoffs
+alwaysApply: true
+---
+
+# Project Memory
+
+- **Read at start**: When beginning any build, development, or orchestration work, read [docs/PROJECT_MEMORY.md](docs/PROJECT_MEMORY.md) to load current context (architecture, decisions, current focus, handoff notes, open questions).
+- **Update when**:
+  - Making an architectural or technical decision → add to **Decisions** or **Architecture**.
+  - Producing a task plan (as Enterprise Architect) → write the plan and next steps in **Current Focus** and/or **Handoff Notes**.
+  - Completing work that affects other roles or the next session → append to **Handoff Notes** (where we left off, what to do next, blockers).
+  - Discovering an unresolved question → add to **Open Questions**.
+- Keep entries concise. Use the existing section structure; do not remove or rename sections.
