@@ -1,8 +1,9 @@
 # AgentGuard
 
+[![CI](https://github.com/MANIGAAA27/agentguard/actions/workflows/ci.yml/badge.svg)](https://github.com/MANIGAAA27/agentguard/actions/workflows/ci.yml)
+
 **LLM guardrails and AI governance for teams that need a single FastAPI control plane** — input validation, prompt packages, retrieval grounding, output checks, policy-as-code, and action risk scoring.
 
-[![CI](https://github.com/MANIGAAA27/agentguard/actions/workflows/ci.yml/badge.svg)](https://github.com/MANIGAAA27/agentguard/actions/workflows/ci.yml)
 ![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue?logo=python&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 ![FastAPI](https://img.shields.io/badge/framework-FastAPI-009688?logo=fastapi&logoColor=white)
