@@ -2,6 +2,22 @@
 
 All notable changes to AgentGuard are documented in this file.
 
+## [0.1.2] - 2026-03-22
+
+### Fixed
+
+- **Tooling**: Ruff `target-version` and mypy `python_version` aligned with **`requires-python >=3.11`** (was 3.12-only)
+- **Metadata**: Trove classifiers include Python 3.11 and 3.12; `authors` set for PyPI-style metadata
+
+### Added
+
+- **PR template** (`.github/pull_request_template.md`) for check scope, tests, and false-positive regression checklist
+- **adding-a-check.md** Step 5: run `make lint` and `make typecheck` before opening a PR
+
+### Changed
+
+- **CONTRIBUTING**: CI runs tests only; editable-install note vs `PYTHONPATH`; maintainer note for applying **`good first issue`** labels
+
 ## [0.1.1] - 2026-03-21
 
 ### Fixed
@@ -13,7 +29,7 @@ All notable changes to AgentGuard are documented in this file.
 ### Added
 
 - **`register_pii_pattern()`** / **`get_pii_patterns()`** for tenant-specific PII regexes; engine redaction uses merged pattern map
-- **GitHub Actions** CI (`.github/workflows/ci.yml`) — `pip install -e ".[dev]"`, `make lint`, `make test` on Python 3.11 and 3.12
+- **GitHub Actions** CI (`.github/workflows/ci.yml`) — `pip install -e ".[dev]"`, `make test` on Python 3.11 and 3.12
 - README **Limitations** section (honest scope of heuristics); enterprise-forward positioning; module-table warnings for PII / hallucination / injection
 - Tests for enterprise phrasing, PII registration, hallucination overlap
 

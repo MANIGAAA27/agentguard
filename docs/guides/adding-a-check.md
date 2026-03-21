@@ -76,3 +76,14 @@ async def test_your_check_clean():
 ```bash
 make test
 ```
+
+## Step 5: Lint and type-check before your PR
+
+CI runs **`make test`** on push and pull requests. **Lint and mypy are not in CI yet**, so you should run them locally to avoid review round-trips:
+
+```bash
+make lint       # ruff
+make typecheck  # mypy (targets Python 3.11 per pyproject.toml)
+```
+
+Optionally run `make format` to auto-format. See [CONTRIBUTING.md](../../CONTRIBUTING.md) for the full workflow.

@@ -4,12 +4,12 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentguard"
-version = "0.1.1"
+version = "0.1.2"
 description = "FastAPI service and library for LLM input/output validation, policy evaluation, and AI governance (heuristic guardrails; ML-backed checks planned)."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
-authors = [{ name = "AgentGuard Team" }]
+authors = [{ name = "Mani G", email = "MANIGAAA27@users.noreply.github.com" }]
 keywords = [
     "ai-guardrails",
     "llm-safety",
@@ -24,6 +24,7 @@ keywords = [
 classifiers = [
     "Development Status :: 3 - Alpha",
     "Framework :: FastAPI",
+    "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
     "Topic :: Scientific/Engineering :: Artificial Intelligence",
 ]
@@ -56,7 +57,7 @@ dev = [
 where = ["src"]
 
 [tool.ruff]
-target-version = "py312"
+target-version = "py311"
 line-length = 100
 
 [tool.ruff.lint]
@@ -67,5 +68,5 @@ asyncio_mode = "auto"
 testpaths = ["tests"]
 
 [tool.mypy]
-python_version = "3.12"
+python_version = "3.11"
 strict = true

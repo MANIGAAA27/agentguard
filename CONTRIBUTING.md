@@ -11,6 +11,8 @@ pip install -e ".[dev]"
 cp .env.example .env
 ```
 
+The **editable install** (`pip install -e ".[dev]"`) registers the package so imports like `agentguard` work in tests and `make dev` without manually setting `PYTHONPATH`. The README Quickstart uses `PYTHONPATH=src uvicorn …` for a minimal run; for development and pytest, prefer the install above.
+
 ## Running the Application
 
 ```bash
@@ -25,7 +27,7 @@ The API is available at `http://localhost:8000/docs`.
 make test
 ```
 
-All tests must pass before submitting a PR. CI runs `make lint` and `make test` on push/PR.
+All tests must pass before submitting a PR. **CI runs `make test` only** (Python 3.11 and 3.12). Run **`make lint`** and **`make typecheck`** locally before opening a PR.
 
 ### Git history
 
@@ -62,3 +64,13 @@ See [docs/guides/adding-a-check.md](docs/guides/adding-a-check.md).
 ## Project Structure
 
 See the [README](README.md#project-structure) for the annotated directory tree.
+
+## Maintainers: `good first issue` labels
+
+Issues labeled **`good first issue`** show up in GitHub’s contributor discovery. If labels are missing, apply them (needs a token with **Issues: write**):
+
+```bash
+gh issue edit 1 2 3 4 5 6 7 --repo MANIGAAA27/agentguard --add-label "good first issue"
+```
+
+Or use the **Labels** control on each issue in the GitHub UI.
