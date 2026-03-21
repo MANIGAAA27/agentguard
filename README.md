@@ -768,6 +768,8 @@ The [Roadmap](#roadmap) includes **ML-backed checks**. Until those land, treat t
 
 Starter work for contributors: [issues labeled **good first issue**](https://github.com/MANIGAAA27/agentguard/issues?q=is%3Aissue+is%3Aopen+label%3A%22good+first+issue%22).
 
+**Blog / backlink:** A dev.to- or Hashnode-ready article lives at [`docs/articles/how-i-built-open-source-llm-guardrails-with-fastapi.md`](docs/articles/how-i-built-open-source-llm-guardrails-with-fastapi.md) — publish it on your account and link back to the repo.
+
 ---
 
 ## Contributing

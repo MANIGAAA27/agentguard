@@ -10,7 +10,7 @@ authors:
 repository-code: "https://github.com/MANIGAAA27/agentguard"
 url: "https://github.com/MANIGAAA27/agentguard"
 license: MIT
-version: 0.1.5
+version: 0.1.6
 abstract: >-
   Open-source FastAPI service for LLM guardrails — input safety (prompt injection,
   PII, secrets), versioned prompt packages, LLM output validation, policy-as-code,

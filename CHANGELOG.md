@@ -2,6 +2,12 @@
 
 All notable changes to AgentGuard are documented in this file.
 
+## [0.1.6] - 2026-03-22
+
+### Added
+
+- **Blog draft** for external publishing: [`docs/articles/how-i-built-open-source-llm-guardrails-with-fastapi.md`](docs/articles/how-i-built-open-source-llm-guardrails-with-fastapi.md) (dev.to / Hashnode); README link under Roadmap
+
 ## [0.1.5] - 2026-03-22
 
 ### Fixed
