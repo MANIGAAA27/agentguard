@@ -1,3 +1,12 @@
+# Builds MkDocs and pushes to branch `gh-pages`.
+#
+# Required once in the repo:
+#   Settings → Pages → Build and deployment → Source: Deploy from a branch
+#   Branch: gh-pages / / (root)
+#
+# If pushes fail with "refusing to allow the GITHUB_TOKEN", set:
+#   Settings → Actions → General → Workflow permissions → Read and write
+
 name: Deploy docs
 
 on:
@@ -5,16 +14,14 @@ on:
     branches: [main, master]
 
 permissions:
-  contents: read
-  pages: write
-  id-token: write
+  contents: write
 
 concurrency:
   group: pages
   cancel-in-progress: true
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -29,16 +36,9 @@ jobs:
       - name: Build MkDocs site
         run: mkdocs build
 
-      - uses: actions/upload-pages-artifact@v3
+      - name: Push to gh-pages
+        uses: peaceiris/actions-gh-pages@v4
         with:
-          path: site
-
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - id: deployment
-        uses: actions/deploy-pages@v4
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./site
+          force_orphan: true

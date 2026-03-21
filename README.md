@@ -759,7 +759,7 @@ The [Roadmap](#roadmap) includes **ML-backed checks**. Until those land, treat t
 
 ## Roadmap
 
-- **Documentation site** — [GitHub Pages](https://manigaaa27.github.io/agentguard/) (deployed by [`.github/workflows/docs.yml`](.github/workflows/docs.yml); enable **Pages → GitHub Actions** in repo Settings if the first deploy does not appear)
+- **Documentation site** — [GitHub Pages](https://manigaaa27.github.io/agentguard/) via [`.github/workflows/docs.yml`](.github/workflows/docs.yml) (pushes to **`gh-pages`**). **One-time setup:** **Settings → Pages →** source **Deploy from a branch → `gh-pages` / `/ (root)`**. If the workflow cannot push, set **Settings → Actions → General → Workflow permissions → Read and write**.
 - **PyPI package** — `pip install agentguard` for library use without cloning (see [issues](https://github.com/MANIGAAA27/agentguard/issues))
 - **ML-backed checks** — Optional classifiers / adapters (e.g. toxicity, injection) alongside transparent heuristics
 - **Dashboard UI** — Web-based admin console for policy management, audit trail browsing, and real-time metrics visualization

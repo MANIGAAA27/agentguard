@@ -2,6 +2,12 @@
 
 All notable changes to AgentGuard are documented in this file.
 
+## [0.1.5] - 2026-03-22
+
+### Fixed
+
+- **Docs deploy workflow**: `actions/deploy-pages` failed with **404** when GitHub Pages was not configured for **GitHub Actions** source — switched to **`peaceiris/actions-gh-pages`** pushing to **`gh-pages`** branch (standard **Deploy from a branch** Pages setup)
+
 ## [0.1.4] - 2026-03-22
 
 ### Added

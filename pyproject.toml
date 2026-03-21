@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentguard"
-version = "0.1.4"
+version = "0.1.5"
 description = "LLM guardrails for FastAPI — prompt injection defense, PII detection, LLM output validation, and AI governance (Python 3.11+). Open-source heuristic checks you can audit."
 readme = "README.md"
 license = { text = "MIT" }
