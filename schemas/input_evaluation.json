@@ -1,0 +1,30 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "InputEvaluationResponse",
+  "type": "object",
+  "required": ["correlation_id", "decision", "checks"],
+  "properties": {
+    "correlation_id": { "type": "string" },
+    "decision": {
+      "type": "string",
+      "enum": ["allow", "redact", "block", "escalate", "safe-complete-only"]
+    },
+    "checks": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["check_name", "passed", "decision", "reason"],
+        "properties": {
+          "check_name": { "type": "string" },
+          "passed": { "type": "boolean" },
+          "decision": { "type": "string" },
+          "reason": { "type": "string" },
+          "severity": { "type": "string", "enum": ["low", "medium", "high", "critical"] },
+          "metadata": { "type": "object" }
+        }
+      }
+    },
+    "redacted_text": { "type": ["string", "null"] },
+    "metadata": { "type": "object" }
+  }
+}

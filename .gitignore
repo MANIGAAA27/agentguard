@@ -1,0 +1,25 @@
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+dist/
+build/
+.eggs/
+*.egg
+.env
+.venv/
+venv/
+env/
+.mypy_cache/
+.ruff_cache/
+.pytest_cache/
+htmlcov/
+.coverage
+*.log
+site/
+.DS_Store
+
+# Local Cursor / agent toolkit files (do not commit into this repo)
+.cursor/
+AGENTS.md
+docs/PROJECT_MEMORY.md

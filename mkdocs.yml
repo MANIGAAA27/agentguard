@@ -1,0 +1,82 @@
+site_name: AgentGuard
+site_description: Production-grade AI Guardrails, Checks, and Validation platform
+site_url: https://agentguard.dev
+repo_url: https://github.com/agentguard/agentguard
+repo_name: agentguard/agentguard
+
+theme:
+  name: material
+  features:
+    - search.suggest
+    - search.highlight
+    - navigation.tabs
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - content.code.copy
+    - content.tabs.link
+  palette:
+    - scheme: default
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - scheme: slate
+      primary: deep purple
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+
+plugins:
+  - search
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: true
+            show_root_heading: true
+
+markdown_extensions:
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - tables
+  - toc:
+      permalink: true
+
+nav:
+  - Home: index.md
+  - Quickstart: quickstart.md
+  - Architecture: architecture.md
+  - API Reference: api-reference.md
+  - Modules:
+      - AI Gateway: modules/gateway.md
+      - Input Guardrails: modules/input-guardrails.md
+      - Prompt Framework: modules/prompt-framework.md
+      - Retrieval Grounding: modules/retrieval-grounding.md
+      - Output Validation: modules/output-validation.md
+      - Action Governance: modules/action-governance.md
+      - Policy Engine: modules/policy-engine.md
+      - Observability: modules/observability.md
+      - Slop Score: modules/slop-score.md
+  - Guides:
+      - Adding a Check: guides/adding-a-check.md
+      - Creating Prompt Packages: guides/creating-prompt-packages.md
+      - Writing Policies: guides/writing-policies.md
+      - Deployment: guides/deployment.md
+  - Cookbook:
+      - Full Request Lifecycle: cookbook/full-request-lifecycle.md
+      - Multi-Tenant Setup: cookbook/multi-tenant-setup.md
+      - Red-Team Evaluation: cookbook/red-team-evaluation.md

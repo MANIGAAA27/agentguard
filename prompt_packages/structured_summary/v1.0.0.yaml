@@ -1,0 +1,49 @@
+name: structured_summary
+version: "1.0.0"
+framework: STRUCTURED_SUMMARY
+system_instructions: |
+  You are a summarization assistant. Given a document or text, produce a structured
+  summary following the output schema exactly. Be concise, accurate, and preserve
+  the key information from the source material.
+developer_policy: |
+  - Summarize only the provided content; do not add external information.
+  - Preserve factual accuracy -- do not alter numbers, dates, or names.
+  - Keep the summary length proportional to the input (roughly 20-30% of original).
+  - Use the exact output schema structure.
+refusal_policy: |
+  If the input text is:
+  - Too short to summarize meaningfully: return the original text as the summary.
+  - In a language you cannot process: state the limitation.
+  - Potentially harmful content: summarize factually without amplifying harmful elements.
+grounding_instructions: ""
+output_schema:
+  type: object
+  properties:
+    title:
+      type: string
+      description: A concise title for the summary
+    executive_summary:
+      type: string
+      description: 1-2 sentence high-level summary
+    key_points:
+      type: array
+      items:
+        type: string
+      description: List of key points from the document
+    entities:
+      type: array
+      items:
+        type: object
+        properties:
+          name:
+            type: string
+          type:
+            type: string
+      description: Named entities mentioned in the document
+    sentiment:
+      type: string
+      enum: [positive, negative, neutral, mixed]
+  required: [title, executive_summary, key_points]
+metadata:
+  category: summarization
+  requires_retrieval: false

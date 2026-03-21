@@ -1,0 +1,30 @@
+name: default
+version: "1.0.0"
+description: Default policy set applied to all tenants unless overridden.
+rules:
+  - id: block-ungrounded-answers
+    description: Block answers without evidence when grounding is required
+    scope: global
+    condition:
+      requires_grounding: true
+      grounded: false
+    decision: deny
+    priority: 10
+
+  - id: require-citations-for-rag
+    description: Require citations for RAG-based use cases
+    scope: use_case
+    condition:
+      framework: RAG_QA
+      has_citations: false
+    decision: warn
+    priority: 20
+
+  - id: block-high-risk-actions
+    description: Block actions with critical risk level without approval
+    scope: global
+    condition:
+      risk_level: critical
+      has_approval: false
+    decision: deny
+    priority: 5

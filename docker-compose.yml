@@ -1,0 +1,43 @@
+services:
+  app:
+    build: .
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    environment:
+      - PYTHONPATH=/app/src
+      - REDIS_URL=redis://redis:6379/0
+      - DATABASE_URL=postgresql://agentguard:agentguard@postgres:5432/agentguard
+    depends_on:
+      redis:
+        condition: service_started
+      postgres:
+        condition: service_healthy
+    volumes:
+      - ./policies:/app/policies
+      - ./prompt_packages:/app/prompt_packages
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: agentguard
+      POSTGRES_PASSWORD: agentguard
+      POSTGRES_DB: agentguard
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U agentguard"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+volumes:
+  pgdata:
