@@ -4,6 +4,10 @@
 
 **LLM guardrails and AI governance for teams that need a single FastAPI control plane** — input validation, prompt packages, retrieval grounding, output checks, policy-as-code, and action risk scoring.
 
+AgentGuard is an **open-source FastAPI** service that sits between your application and any LLM provider. It enforces **LLM guardrails** on the way in and out: **input** safety checks (prompt injection heuristics, jailbreak patterns, PII and secret detection), **versioned prompt packages**, **LLM output validation** (schema, citations, grounding heuristics, policy), and **agent action governance** with risk scoring and optional human approval. All checks are **transparent heuristics** you can audit and extend in code — not a black-box model. It is built for **platform engineers** who need **auditability** and a clear HTTP API, not magic.
+
+**Docs site (GitHub Pages):** [manigaaa27.github.io/agentguard](https://manigaaa27.github.io/agentguard/) · **Comparison** (vs Guardrails AI, NeMo, LlamaGuard, …): [docs/comparison.md](docs/comparison.md) · **LLM-oriented summary:** [docs/llms.txt](docs/llms.txt)
+
 ![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue?logo=python&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 ![FastAPI](https://img.shields.io/badge/framework-FastAPI-009688?logo=fastapi&logoColor=white)
@@ -13,6 +17,7 @@
 
 ## Table of Contents
 
+- [Comparison with similar tools](docs/comparison.md)
 - [What is AgentGuard?](#what-is-agentguard)
 - [Architecture at a Glance](#architecture-at-a-glance)
 - [Modules](#modules)
@@ -43,7 +48,7 @@
 
 ## What is AgentGuard?
 
-AgentGuard is an open-source **FastAPI** service (installable as a Python package) that sits between your application and LLM providers to apply **policy**, **input/output checks**, **grounding**, and **action governance** on AI traffic. It targets teams who want **LLM output validation**, **prompt-injection defense (heuristic)**, and **auditable prompt packages** in one place.
+**AgentGuard** is **LLM guardrails** as a service: the same FastAPI control plane described in the intro — **input** checks, **output** validation, prompts, policies, and **action** risk controls. Teams use it for **prompt injection defense** (heuristic), **PII** handling, **LLM output validation**, and **AI governance** with a single REST API.
 
 **Colloquially: “output quality” / slop.** Some docs and code refer to a composite **slop score** — that name is informal. In enterprise language, read it as **LLM output quality and risk scoring** (grounding, schema fit, policy, genericity, etc.).
 
@@ -754,6 +759,7 @@ The [Roadmap](#roadmap) includes **ML-backed checks**. Until those land, treat t
 
 ## Roadmap
 
+- **Documentation site** — [GitHub Pages](https://manigaaa27.github.io/agentguard/) (deployed by [`.github/workflows/docs.yml`](.github/workflows/docs.yml); enable **Pages → GitHub Actions** in repo Settings if the first deploy does not appear)
 - **PyPI package** — `pip install agentguard` for library use without cloning (see [issues](https://github.com/MANIGAAA27/agentguard/issues))
 - **ML-backed checks** — Optional classifiers / adapters (e.g. toxicity, injection) alongside transparent heuristics
 - **Dashboard UI** — Web-based admin console for policy management, audit trail browsing, and real-time metrics visualization

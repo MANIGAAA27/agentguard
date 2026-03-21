@@ -2,6 +2,28 @@
 
 All notable changes to AgentGuard are documented in this file.
 
+## [0.1.4] - 2026-03-22
+
+### Added
+
+- **`CITATION.cff`** for academic / “Cite this repository” metadata
+- **`docs/llms.txt`** — concise machine-oriented project summary (emerging `llms.txt` convention)
+- **`docs/comparison.md`** — factual positioning vs Guardrails AI, NeMo Guardrails, LlamaGuard, Rebuff, Presidio
+- **GitHub Pages** workflow ([`.github/workflows/docs.yml`](.github/workflows/docs.yml)) deploying MkDocs to `https://manigaaa27.github.io/agentguard/`
+- **`[project.urls]`** in `pyproject.toml` (Homepage, Documentation, Repository, Issues, Changelog)
+
+### Changed
+
+- **README**: canonical **LLM guardrails** elevator pitch under the one-liner; links to docs site, comparison, `llms.txt`
+- **`mkdocs.yml`**: site name/description/repo URL aligned with **MANIGAAA27/agentguard** and GitHub Pages URL
+- **`docs/index.md`**: consistent **LLM guardrails** terminology; links to comparison and `llms.txt`
+- **`pyproject.toml`**: description and keywords emphasize **LLM guardrails** and **LLM output validation**
+- **GitHub** repo **About** description updated (search-friendly snippet) via `gh repo edit`
+
+### Removed
+
+- Stray **`docs/PROJECT_MEMORY.md`** (not part of AgentGuard docs)
+
 ## [0.1.3] - 2026-03-22
 
 ### Changed

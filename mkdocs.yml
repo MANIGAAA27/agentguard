@@ -1,8 +1,10 @@
-site_name: AgentGuard
-site_description: Production-grade AI Guardrails, Checks, and Validation platform
-site_url: https://agentguard.dev
-repo_url: https://github.com/agentguard/agentguard
-repo_name: agentguard/agentguard
+site_name: "AgentGuard — LLM guardrails (FastAPI)"
+site_description: >-
+  Open-source FastAPI LLM guardrails — prompt injection defense, PII detection,
+  LLM output validation, and AI governance. Python 3.11+.
+site_url: https://manigaaa27.github.io/agentguard/
+repo_url: https://github.com/MANIGAAA27/agentguard
+repo_name: MANIGAAA27/agentguard
 
 theme:
   name: material
@@ -58,6 +60,7 @@ markdown_extensions:
 
 nav:
   - Home: index.md
+  - Comparison: comparison.md
   - Quickstart: quickstart.md
   - Architecture: architecture.md
   - API Reference: api-reference.md

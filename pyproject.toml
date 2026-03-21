@@ -4,13 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentguard"
-version = "0.1.3"
-description = "FastAPI service and library for LLM input/output validation, policy evaluation, and AI governance (heuristic guardrails; ML-backed checks planned)."
+version = "0.1.4"
+description = "LLM guardrails for FastAPI — prompt injection defense, PII detection, LLM output validation, and AI governance (Python 3.11+). Open-source heuristic checks you can audit."
 readme = "README.md"
 license = { text = "MIT" }
 requires-python = ">=3.11"
 authors = [{ name = "Mani G", email = "MANIGAAA27@users.noreply.github.com" }]
 keywords = [
+    "llm-guardrails",
     "ai-guardrails",
     "llm-safety",
     "prompt-injection",
@@ -20,6 +21,7 @@ keywords = [
     "python",
     "prompt-engineering",
     "enterprise-ai",
+    "llm-output-validation",
 ]
 classifiers = [
     "Development Status :: 3 - Alpha",
@@ -40,6 +42,13 @@ dependencies = [
     "jsonschema>=4.23.0",
     "redis>=5.2.0",
 ]
+
+[project.urls]
+Homepage = "https://github.com/MANIGAAA27/agentguard"
+Documentation = "https://manigaaa27.github.io/agentguard/"
+Repository = "https://github.com/MANIGAAA27/agentguard"
+Issues = "https://github.com/MANIGAAA27/agentguard/issues"
+Changelog = "https://github.com/MANIGAAA27/agentguard/blob/main/CHANGELOG.md"
 
 [project.optional-dependencies]
 dev = [

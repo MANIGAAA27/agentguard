@@ -1,26 +1,30 @@
-# AgentGuard
+# AgentGuard — LLM guardrails (FastAPI)
 
-**Production-grade AI Guardrails, Checks, and Validation platform to eliminate AI slop across enterprise applications.**
+**Open-source FastAPI LLM guardrails** for teams that need one HTTP control plane: **prompt injection** defense (heuristic), **PII** and secret checks, **LLM output validation**, versioned **prompt packages**, **policy-as-code**, retrieval **grounding**, and **agent** action governance with risk scoring and optional human approval.
 
-AgentGuard is a service-oriented platform that sits between your user-facing apps/agents and LLM providers. It prevents low-quality, hallucinated, unsafe, non-compliant, and ungrounded AI outputs through modular guardrails, policy-as-code, and a composite AI Slop Prevention Score.
+AgentGuard is an **open-source FastAPI** service that sits between your application and any LLM provider. It applies **LLM guardrails** on input and output with **transparent heuristics** you can audit in code — not a black-box model. Python **3.11+**.
 
-## Key Capabilities
+- [Quickstart](quickstart.md) — run locally in a few commands
+- [Comparison](comparison.md) — vs Guardrails AI, NeMo Guardrails, LlamaGuard, Presidio, Rebuff
+- [Architecture](architecture.md) — system design
+- [GitHub repository](https://github.com/MANIGAAA27/agentguard) — source, issues, CI
+
+## Key capabilities
 
 | Module | Purpose | Endpoint |
 |--------|---------|----------|
 | [AI Gateway](modules/gateway.md) | AuthN/AuthZ, tenant isolation, rate limiting, model routing | `/v1/gateway/complete` |
-| [Input Guardrails](modules/input-guardrails.md) | 7 safety checks on user input | `/v1/guardrails/evaluate-input` |
+| [Input Guardrails](modules/input-guardrails.md) | LLM guardrails on user input (7 checks) | `/v1/guardrails/evaluate-input` |
 | [Prompt Framework](modules/prompt-framework.md) | Versioned prompt packages with linting | `/v1/prompts/compile` |
 | [Retrieval Grounding](modules/retrieval-grounding.md) | Citation packaging and confidence scoring | `/v1/retrieval/search` |
-| [Output Validation](modules/output-validation.md) | 7 quality checks on LLM output | `/v1/outputs/validate` |
+| [Output Validation](modules/output-validation.md) | LLM output validation (7 checks) | `/v1/outputs/validate` |
 | [Action Governance](modules/action-governance.md) | Tool allowlist, risk scoring, HITL approval | `/v1/actions/authorize` |
 | [Policy Engine](modules/policy-engine.md) | Tenant/use-case/role/channel policies | `/v1/policies/evaluate` |
 | [Observability](modules/observability.md) | Tracing, metrics, audit, evaluation suites | `/v1/evals/run` |
 
-## Quick Links
+## Quick links
 
-- [Quickstart](quickstart.md) -- Get running in 3 commands
-- [Architecture](architecture.md) -- Full system design document
-- [API Reference](api-reference.md) -- All endpoints with schemas
-- [Guides](guides/adding-a-check.md) -- How to extend AgentGuard
-- [Cookbook](cookbook/full-request-lifecycle.md) -- End-to-end examples
+- [API Reference](api-reference.md)
+- [Guides](guides/adding-a-check.md)
+- [Cookbook](cookbook/full-request-lifecycle.md)
+- [LLM-oriented summary (`llms.txt`)](llms.txt)

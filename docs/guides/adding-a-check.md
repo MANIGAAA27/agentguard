@@ -86,4 +86,4 @@ make lint       # ruff
 make typecheck  # mypy (targets Python 3.11 per pyproject.toml)
 ```
 
-Optionally run `make format` to auto-format. See [CONTRIBUTING.md](../../CONTRIBUTING.md) for the full workflow.
+Optionally run `make format` to auto-format. See [CONTRIBUTING.md](https://github.com/MANIGAAA27/agentguard/blob/main/CONTRIBUTING.md) for the full workflow.
