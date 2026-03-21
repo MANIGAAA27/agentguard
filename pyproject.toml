@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "agentguard"
-version = "0.1.2"
+version = "0.1.3"
 description = "FastAPI service and library for LLM input/output validation, policy evaluation, and AI governance (heuristic guardrails; ML-backed checks planned)."
 readme = "README.md"
 license = { text = "MIT" }

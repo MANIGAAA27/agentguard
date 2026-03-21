@@ -67,10 +67,18 @@ See the [README](README.md#project-structure) for the annotated directory tree.
 
 ## Maintainers: `good first issue` labels
 
-Issues labeled **`good first issue`** show up in GitHub’s contributor discovery. If labels are missing, apply them (needs a token with **Issues: write**):
+Issues labeled **`good first issue`** feed GitHub’s Contribute flow and external aggregators. **Apply from an account with repo admin** (UI: issue page → right sidebar **Labels** gear, or `gh` with **Issues: write**).
+
+**Recommended:** label these three as **`good first issue`** (small scope, clear acceptance criteria):
+
+- [#1 — UK phone / NI-style regex](https://github.com/MANIGAAA27/agentguard/issues/1)
+- [#2 — false-positive regression tests for prompt_injection](https://github.com/MANIGAAA27/agentguard/issues/2)
+- [#4 — PII Unicode / non-Latin email edge cases](https://github.com/MANIGAAA27/agentguard/issues/4)
+
+Leave **#3, #5, #6, #7** unlabeled for **`good first issue`** (research/architecture); optionally tag **`enhancement`**.
 
 ```bash
-gh issue edit 1 2 3 4 5 6 7 --repo MANIGAAA27/agentguard --add-label "good first issue"
+gh issue edit 1 2 4 --repo MANIGAAA27/agentguard --add-label "good first issue"
+# optional:
+gh issue edit 3 5 6 7 --repo MANIGAAA27/agentguard --add-label "enhancement"
 ```
-
-Or use the **Labels** control on each issue in the GitHub UI.

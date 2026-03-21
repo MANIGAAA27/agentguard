@@ -2,6 +2,12 @@
 
 All notable changes to AgentGuard are documented in this file.
 
+## [0.1.3] - 2026-03-22
+
+### Changed
+
+- **CONTRIBUTING**: Clarify which issues get **`good first issue`** vs **`enhancement`**; deep links to **#1, #2, #4**
+
 ## [0.1.2] - 2026-03-22
 
 ### Fixed
@@ -16,7 +22,7 @@ All notable changes to AgentGuard are documented in this file.
 
 ### Changed
 
-- **CONTRIBUTING**: CI runs tests only; editable-install note vs `PYTHONPATH`; maintainer note for applying **`good first issue`** labels
+- **CONTRIBUTING**: CI runs tests only; editable-install note vs `PYTHONPATH`; maintainer checklist for labels — **`good first issue`** on **#1, #2, #4** only; optional **`enhancement`** on **#3, #5, #6, #7** (apply in GitHub UI or with `gh` + Issues write)
 
 ## [0.1.1] - 2026-03-21
 
