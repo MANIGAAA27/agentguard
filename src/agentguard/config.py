@@ -62,6 +62,8 @@ class Settings(BaseSettings):
     enable_audit_log: bool = True
     enable_request_tracing: bool = True
     enable_quality_risk_metrics: bool = False
+    enable_guardrail_timing_logs: bool = False
+    expose_guardrail_latency_header: bool = False
     cors_origins: list[str] = ["http://localhost:3000"]
 
 

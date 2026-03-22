@@ -15,7 +15,7 @@ AgentGuard is an **open-source FastAPI** service that sits between your applicat
 ![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue?logo=python&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 ![FastAPI](https://img.shields.io/badge/framework-FastAPI-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-73%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-77%20passing-brightgreen)
 
 ---
 
@@ -270,6 +270,10 @@ PYTHONPATH=src uvicorn agentguard.main:app --reload --host 0.0.0.0 --port 8000
 After the first successful PyPI upload, install with `pip install agentguard` and run `uvicorn agentguard.main:app --host 0.0.0.0 --port 8000` (no `PYTHONPATH` needed).
 
 Open the interactive API docs at [http://localhost:8000/docs](http://localhost:8000/docs).
+
+### Performance (guardrail latency)
+
+Input and output checks run **in parallel**; cost is roughly the **slowest** check. Reproduce timings on your machine with `python scripts/bench_guardrails.py`. Optional: `ENABLE_GUARDRAIL_TIMING_LOGS` and `EXPOSE_GUARDRAIL_LATENCY_HEADER` in [`.env.example`](.env.example) — see [Guardrail latency](docs/operations/guardrail-latency.md).
 
 ### Docker Compose (one command)
 

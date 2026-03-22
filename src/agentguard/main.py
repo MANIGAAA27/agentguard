@@ -12,6 +12,7 @@ from fastapi.responses import JSONResponse
 
 from agentguard.action_governance.router import router as action_router
 from agentguard.common.exceptions import AgentGuardError
+from agentguard.common.latency import GuardrailLatencyHeaderMiddleware
 from agentguard.common.middleware import CorrelationIdMiddleware, TenantContextMiddleware
 from agentguard import __version__
 from agentguard.config import settings
@@ -52,6 +53,7 @@ app.add_middleware(
     allow_methods=["*"],
     allow_headers=["*"],
 )
+app.add_middleware(GuardrailLatencyHeaderMiddleware)
 app.add_middleware(TenantContextMiddleware)
 app.add_middleware(CorrelationIdMiddleware)
 
