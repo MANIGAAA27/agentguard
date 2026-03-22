@@ -65,6 +65,13 @@ See [docs/guides/adding-a-check.md](docs/guides/adding-a-check.md).
 
 See the [README](README.md#project-structure) for the annotated directory tree.
 
+## Releasing to PyPI
+
+1. Bump **`version`** in [`pyproject.toml`](pyproject.toml) and **`__version__`** in [`src/agentguard/__init__.py`](src/agentguard/__init__.py); summarize changes in [`CHANGELOG.md`](CHANGELOG.md).
+2. Configure [trusted publishing](https://docs.pypi.org/trusted-publishers/) on PyPI for this GitHub repo → workflow **`Publish PyPI`** (see [`.github/workflows/publish-pypi.yml`](.github/workflows/publish-pypi.yml)).
+3. Create a **GitHub Release** (tag like `v0.1.7` matching the release version); the workflow builds and uploads **sdist + wheel**.
+4. The **first** upload or a name collision may require manual `twine` / PyPI UI steps — see PyPI project settings if the package name **`agentguard`** is unavailable.
+
 ## Maintainers: `good first issue` labels
 
 Issues labeled **`good first issue`** feed GitHub’s Contribute flow and external aggregators. **Apply from an account with repo admin** (UI: issue page → right sidebar **Labels** gear, or `gh` with **Issues: write**).

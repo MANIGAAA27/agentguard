@@ -74,7 +74,7 @@ def compute_slop_score(
         decision = "reject"
 
     return SlopScoreResult(
-        score=composite,
+        quality_risk_score=composite,
         decision=decision,
         components=components,
     )

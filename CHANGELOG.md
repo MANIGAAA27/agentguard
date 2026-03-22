@@ -2,6 +2,21 @@
 
 All notable changes to AgentGuard are documented in this file.
 
+## [0.1.7] - 2026-03-22
+
+### Added
+
+- **PyPI packaging workflow** ([`.github/workflows/publish-pypi.yml`](.github/workflows/publish-pypi.yml)) — builds sdist/wheel on **GitHub Release** / manual dispatch; requires [trusted publishing](https://docs.pypi.org/trusted-publishers/) on PyPI
+- **In-process FastAPI integration** — [`agentguard.integrations`](src/agentguard/integrations/fastapi.py): `register_agentguard_middleware`, `include_gateway_router`, `guardrailed_user_text` dependency
+- **Example app** — [`examples/minimal_gateway_openai.py`](examples/minimal_gateway_openai.py) embeds `POST /v1/gateway/complete` without a sidecar
+
+### Changed
+
+- **`SlopScoreResult`**: primary field **`quality_risk_score`** in API/schema; **`score`** remains a serialized alias (same value) for backward compatibility
+- **`schemas/slop_score.json`**: documents `quality_risk_score` as required
+- **README**: blunt positioning paragraph; **Public HTTP API (stability)**; **Install from PyPI**; **Hello world** (`/v1/gateway/complete` + OpenAI/local); **Embed in your FastAPI app**
+- **`FastAPI` app metadata**: version follows `agentguard.__version__`; description reflects heuristic / non-enterprise scope
+
 ## [0.1.6] - 2026-03-22
 
 ### Added

@@ -6,12 +6,16 @@
 
 AgentGuard is an **open-source FastAPI** service that sits between your application and any LLM provider. It enforces **LLM guardrails** on the way in and out: **input** safety checks (prompt injection heuristics, jailbreak patterns, PII and secret detection), **versioned prompt packages**, **LLM output validation** (schema, citations, grounding heuristics, policy), and **agent action governance** with risk scoring and optional human approval. All checks are **transparent heuristics** you can audit and extend in code — not a black-box model. It is built for **platform engineers** who need **auditability** and a clear HTTP API, not magic.
 
+**Positioning (blunt):** AgentGuard is **heuristic, transparent guardrails** you can read and tune in Python — **not** a full enterprise safety stack. It does not replace vendor-backed AI safety platforms, certified compliance programs, dedicated red teams, or managed detection for novel attacks. Use it when you want a **FastAPI-shaped control plane**, clear JSON contracts, and honest limits — not when procurement expects a boxed “AI trust” product with a SOC attached.
+
+**Install:** `pip install agentguard` ([PyPI](https://pypi.org/project/agentguard/) — ensure the package name matches your release; configure [trusted publishing](https://docs.pypi.org/trusted-publishers/) for automated uploads).
+
 **Docs site (GitHub Pages):** [manigaaa27.github.io/agentguard](https://manigaaa27.github.io/agentguard/) · **Comparison** (vs Guardrails AI, NeMo, LlamaGuard, …): [docs/comparison.md](docs/comparison.md) · **LLM-oriented summary:** [docs/llms.txt](docs/llms.txt)
 
 ![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue?logo=python&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 ![FastAPI](https://img.shields.io/badge/framework-FastAPI-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-71%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-73%20passing-brightgreen)
 
 ---
 
@@ -29,8 +33,11 @@ AgentGuard is an **open-source FastAPI** service that sits between your applicat
   - [Action Governance](#action-governance)
   - [Observability and Evaluation](#observability-and-evaluation)
   - [Policy Engine](#policy-engine)
-  - [Output quality (Slop) score](#output-quality-slop-score)
+  - [Output quality (`quality_risk_score`)](#output-quality-quality_risk_score)
 - [Quickstart](#quickstart)
+- [Hello world: gateway + OpenAI](#hello-world-gateway--openai)
+- [Embed in your FastAPI app (in-process)](#embed-in-your-fastapi-app-in-process)
+- [Public HTTP API (stability)](#public-http-api-stability)
 - [API Reference](#api-reference)
 - [Usage Examples](#usage-examples)
 - [Configuration](#configuration)
@@ -50,7 +57,7 @@ AgentGuard is an **open-source FastAPI** service that sits between your applicat
 
 **AgentGuard** is **LLM guardrails** as a service: the same FastAPI control plane described in the intro — **input** checks, **output** validation, prompts, policies, and **action** risk controls. Teams use it for **prompt injection defense** (heuristic), **PII** handling, **LLM output validation**, and **AI governance** with a single REST API.
 
-**Colloquially: “output quality” / slop.** Some docs and code refer to a composite **slop score** — that name is informal. In enterprise language, read it as **LLM output quality and risk scoring** (grounding, schema fit, policy, genericity, etc.).
+**User-facing metric:** JSON responses and docs use **`quality_risk_score`** (0 = low risk, 1 = high risk). The internal Python package path is still `slop_score/`; the legacy field **`score`** duplicates `quality_risk_score` for backward compatibility.
 
 **Examples of low-quality or risky model output** (what the score and checks try to surface):
 
@@ -88,7 +95,7 @@ flowchart LR
     D --> E[Retrieval Grounding]
     E --> F[LLM Provider]
     F --> G[Output Validation]
-    G --> H[Slop Score]
+    G --> H[quality_risk_score]
     H --> I[Action Governance]
     I --> J[Response]
 
@@ -113,7 +120,7 @@ flowchart LR
 | Action Governance | Tool allowlist, risk scoring, HITL approval | `POST /v1/actions/authorize` | [action_governance/](src/agentguard/action_governance/) |
 | Observability | Tracing, metrics, audit trail, evaluation suites | `POST /v1/evals/run` | [observability/](src/agentguard/observability/) |
 | Policy Engine | Tenant/use-case/role/channel policy evaluation | `POST /v1/policies/evaluate` | [policy/](src/agentguard/policy/) |
-| Output quality score | Composite score from 6 heuristic components (internal name: slop score) | Computed internally | [slop_score/](src/agentguard/slop_score/) |
+| Output quality | Composite **`quality_risk_score`** from 6 heuristic components (module: `slop_score/`) | Computed internally | [slop_score/](src/agentguard/slop_score/) |
 
 ---
 
@@ -169,7 +176,7 @@ Retrieval Grounding connects LLM responses to verifiable evidence:
 - **Query rewriting** — Sanitizes and rewrites user queries for safety before searching
 - **Citation packaging** — Wraps retrieved documents with numbered `[N]` citation markers
 - **Confidence scoring** — Each source gets a confidence score; low-confidence sources are filtered
-- **Grounding flag** — Binary `grounded` indicator for downstream checks and slop scoring
+- **Grounding flag** — Binary `grounded` indicator for downstream checks and **`quality_risk_score`**
 
 ### Output Validation
 
@@ -185,7 +192,7 @@ Seven parallel quality checks run on every LLM response:
 | 6 | **Confidence threshold** | Model confidence meets minimum requirements |
 | 7 | **Genericity detection** | Response is specific, not vague boilerplate |
 
-Results feed into the Slop Score and produce an aggregate decision: `pass`, `repair`, `reject`, or `escalate`.
+Results feed into **`quality_risk_score`** (composite output quality/risk) and produce an aggregate decision: `pass`, `repair`, `reject`, or `escalate`.
 
 ### Action Governance
 
@@ -216,9 +223,9 @@ Declarative, tenant-aware policy evaluation:
 - **Priority ordering** — Rules are evaluated in priority order; first match wins
 - **Policy-as-code** — Policies are YAML files in the `policies/` directory, version-controlled alongside your code
 
-### Output quality (Slop) score
+### Output quality (`quality_risk_score`)
 
-A composite metric (internally named **slop score**) that summarizes how weak or risky an LLM response looks under **heuristic** checks. The score ranges from **0.0** (clean) to **1.0** (worst).
+A composite metric (**`quality_risk_score`** in JSON; internal module name **slop score**) that summarizes how weak or risky an LLM response looks under **heuristic** checks. The score ranges from **0.0** (low risk) to **1.0** (high risk). Responses may also include **`score`**, equal to **`quality_risk_score`** (deprecated label only).
 
 **Six weighted components:**
 
@@ -250,22 +257,33 @@ A composite metric (internally named **slop score**) that summarizes how weak or
 
 ### Install and Run
 
+**From PyPI (released versions):**
+
+```bash
+pip install agentguard
+uvicorn agentguard.main:app --host 0.0.0.0 --port 8000
+```
+
+**From source (contributors):**
+
 ```bash
 git clone https://github.com/MANIGAAA27/agentguard.git && cd agentguard
+cp .env.example .env   # optional; set OPENAI_API_KEY for live LLM calls
 pip install -e ".[dev]"
 PYTHONPATH=src uvicorn agentguard.main:app --reload --host 0.0.0.0 --port 8000
 ```
 
 Open the interactive API docs at [http://localhost:8000/docs](http://localhost:8000/docs).
 
-### Docker Compose
+### Docker Compose (one command)
 
 ```bash
+git clone https://github.com/MANIGAAA27/agentguard.git && cd agentguard
+cp .env.example .env
 docker compose up --build -d
-open http://localhost:8000/docs
 ```
 
-This starts the AgentGuard API, Redis, and PostgreSQL.
+Then open [http://localhost:8000/docs](http://localhost:8000/docs). This starts the AgentGuard API, Redis, and PostgreSQL.
 
 ### Verify the Installation
 
@@ -293,6 +311,97 @@ Expected response:
   "redacted_text": null
 }
 ```
+
+---
+
+## Hello world: gateway + OpenAI
+
+The AI Gateway exposes **`POST /v1/gateway/complete`**. With **`APP_ENV=development`**, an API key is optional. Set provider credentials in `.env` (see [`.env.example`](.env.example)).
+
+**No API key (local stub provider):**
+
+```bash
+curl -s http://localhost:8000/v1/gateway/complete \
+  -H "Content-Type: application/json" \
+  -d '{"messages":[{"role":"user","content":"Say hi in one short sentence."}],"model_provider":"local"}' | python -m json.tool
+```
+
+**OpenAI** (`OPENAI_API_KEY` in the environment; default provider is OpenAI):
+
+```bash
+curl -s http://localhost:8000/v1/gateway/complete \
+  -H "Content-Type: application/json" \
+  -d '{"messages":[{"role":"user","content":"Say hi in one short sentence."}],"model_name":"gpt-4o-mini"}' | python -m json.tool
+```
+
+**Python client (httpx):**
+
+```python
+import httpx
+
+r = httpx.post(
+    "http://localhost:8000/v1/gateway/complete",
+    json={
+        "messages": [{"role": "user", "content": "Say hi in one short sentence."}],
+        "model_provider": "local",
+    },
+    timeout=60.0,
+)
+r.raise_for_status()
+print(r.json())
+```
+
+Minimal embeddable app (same endpoint, no sidecar): [`examples/minimal_gateway_openai.py`](examples/minimal_gateway_openai.py).
+
+---
+
+## Embed in your FastAPI app (in-process)
+
+Mount the gateway and middleware on your own `FastAPI()` instance:
+
+```python
+from fastapi import FastAPI
+
+from agentguard.integrations import include_gateway_router, register_agentguard_middleware
+
+app = FastAPI()
+register_agentguard_middleware(app)
+include_gateway_router(app)
+```
+
+Optional **input** dependency (validates a JSON body field named `text`):
+
+```python
+from typing import Annotated
+
+from fastapi import Depends, FastAPI
+
+from agentguard.integrations import guardrailed_user_text, register_agentguard_middleware
+
+app = FastAPI()
+register_agentguard_middleware(app)
+
+@app.post("/echo")
+async def echo(safe: Annotated[str, Depends(guardrailed_user_text)]):
+    return {"you_said": safe}
+```
+
+`POST /echo` body: `{"text": "..."}`.
+
+---
+
+## Public HTTP API (stability)
+
+| Stability | Meaning |
+|---|---|
+| **Stable (v1)** | Path prefix `/v1/...` and JSON fields documented in OpenAPI (`/docs`, `/openapi.json`) are intended to remain compatible within semver **minor** releases. Prefer these for integrations. |
+| **Experimental** | Behavior may change without a major version until promoted — watch [CHANGELOG.md](CHANGELOG.md). *Currently:* treat **pipeline-style** orchestration endpoints (if added beyond raw `/v1/gateway/complete`) and **deep policy tuning hooks** as experimental unless explicitly marked stable in OpenAPI summaries. |
+| **Internal** | Python modules under `agentguard.*` may refactor between minors; depend on **HTTP** or pin a **semver** release for production. |
+
+**`POST /v1/gateway/complete` (stable request/response):**
+
+- **Request body:** `messages` (array of `{"role","content"}`), optional `use_case`, `model_provider`, `model_name`, `stream`, `metadata`.
+- **Response body:** `correlation_id`, `tenant_id`, `model`, `output` (provider-shaped JSON, e.g. OpenAI `chat.completions`).
 
 ---
 

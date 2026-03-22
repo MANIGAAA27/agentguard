@@ -14,7 +14,8 @@ def test_clean_output_low_score():
         CheckResult(check_name="unsafe_language", passed=True, decision="pass", reason="ok"),
     ]
     result = compute_slop_score(checks, grounded=True, schema_valid=True)
-    assert result.score <= 0.3
+    assert result.quality_risk_score <= 0.3
+    assert result.score == result.quality_risk_score
     assert result.decision == "pass"
 
 
@@ -26,7 +27,8 @@ def test_ungrounded_increases_score():
         CheckResult(check_name="unsafe_language", passed=True, decision="pass", reason="ok"),
     ]
     result = compute_slop_score(checks, grounded=False, schema_valid=True)
-    assert result.score > 0.0
+    assert result.quality_risk_score > 0.0
+    assert result.score == result.quality_risk_score
     assert result.components.grounding_coverage == 1.0
 
 
@@ -38,5 +40,6 @@ def test_high_slop_rejects():
         CheckResult(check_name="unsafe_language", passed=True, decision="pass", reason="ok"),
     ]
     result = compute_slop_score(checks, grounded=False, schema_valid=False, action_risk=0.8)
-    assert result.score > 0.7
+    assert result.quality_risk_score > 0.7
+    assert result.score == result.quality_risk_score
     assert result.decision == "reject"

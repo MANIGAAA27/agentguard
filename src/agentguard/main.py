@@ -13,6 +13,7 @@ from fastapi.responses import JSONResponse
 from agentguard.action_governance.router import router as action_router
 from agentguard.common.exceptions import AgentGuardError
 from agentguard.common.middleware import CorrelationIdMiddleware, TenantContextMiddleware
+from agentguard import __version__
 from agentguard.config import settings
 from agentguard.gateway.router import router as gateway_router
 from agentguard.input_guardrails.router import router as input_router
@@ -35,10 +36,10 @@ async def lifespan(_app: FastAPI) -> AsyncIterator[None]:
 app = FastAPI(
     title=settings.app_name,
     description=(
-        "Production-grade AI Guardrails, Checks, and Validation platform "
-        "to eliminate AI slop across enterprise applications."
+        "Heuristic, auditable LLM guardrails (input/output checks, policies, gateway). "
+        "Not a full enterprise safety stack — see README limitations."
     ),
-    version="0.1.0",
+    version=__version__,
     lifespan=lifespan,
     docs_url="/docs",
     redoc_url="/redoc",
