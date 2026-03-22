@@ -1,0 +1,33 @@
+# AgentGuard — LLM guardrails for FastAPI (machine-readable summary)
+
+project: AgentGuard
+repository: https://github.com/MANIGAAA27/agentguard
+documentation: https://github.com/MANIGAAA27/agentguard/tree/main/docs
+live_docs: https://manigaaa27.github.io/agentguard/
+license: MIT
+python: ">=3.11"
+
+## What it is
+
+AgentGuard is an open-source FastAPI service (Python package) for LLM guardrails: it sits between your application and LLM providers. It runs input safety checks (prompt injection heuristics, jailbreak patterns, PII regexes, secret detection), compiles versioned prompt packages, validates LLM outputs (schema, citations, grounding heuristics, policy), and governs agent actions with risk scoring and optional human approval. Checks are transparent regex/heuristic code you can audit and extend — not a closed-box model.
+
+## Primary search terms
+
+LLM guardrails, prompt injection detection FastAPI, LLM output validation Python, AI safety middleware, PII detection LLM, FastAPI AI governance.
+
+## API entrypoints (REST)
+
+- POST /v1/guardrails/evaluate-input — input LLM guardrails
+- POST /v1/outputs/validate — output LLM guardrails / validation
+- POST /v1/gateway/complete — gateway + model routing
+- POST /v1/prompts/compile — prompt packages
+- POST /v1/policies/evaluate — policy engine
+- POST /v1/actions/authorize — action governance
+
+## Limitations (honest)
+
+Heuristic checks only today; not a full replacement for ML classifiers (e.g. LlamaGuard) or enterprise DLP. See README "Limitations" and docs/comparison.md.
+
+## Compare
+
+See docs/comparison.md in the repository for positioning vs Guardrails AI, NeMo Guardrails, LlamaGuard, and similar tools.
