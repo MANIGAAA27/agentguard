@@ -17,6 +17,10 @@ class OutputValidationRequest(BaseModel):
     expected_schema: dict[str, Any] | None = Field(None, description="JSON schema for output")
     require_citations: bool = Field(False, description="Whether citations are required")
     min_confidence: float = Field(0.5, ge=0.0, le=1.0)
+    include_quality_risk_score: bool = Field(
+        False,
+        description="If true, response metadata includes quality_risk_score and quality_risk_decision",
+    )
     metadata: dict[str, Any] = Field(default_factory=dict)
 
 

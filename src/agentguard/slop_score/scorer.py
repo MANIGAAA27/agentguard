@@ -4,6 +4,7 @@ from __future__ import annotations
 
 from agentguard.common.models import CheckResult
 from agentguard.config import settings
+from agentguard.observability.quality_risk_metrics import record_quality_risk_sample
 from agentguard.slop_score.schemas import SlopScoreComponents, SlopScoreResult
 
 _DEFAULT_WEIGHTS = {
@@ -73,8 +74,10 @@ def compute_slop_score(
     else:
         decision = "reject"
 
-    return SlopScoreResult(
+    result = SlopScoreResult(
         quality_risk_score=composite,
         decision=decision,
         components=components,
     )
+    record_quality_risk_sample(result.quality_risk_score, result.decision)
+    return result
