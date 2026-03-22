@@ -63,6 +63,8 @@ nav:
   - Comparison: comparison.md
   - Quickstart: quickstart.md
   - Architecture: architecture.md
+  - ADRs:
+      - "001: Streaming vs output validation": adrs/adr-001-streaming-output-validation.md
   - Operations:
       - Quality risk score monitoring: operations/quality-risk-score-monitoring.md
       - Guardrail latency: operations/guardrail-latency.md

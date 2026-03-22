@@ -15,7 +15,7 @@ AgentGuard is an **open-source FastAPI** service that sits between your applicat
 ![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue?logo=python&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
 ![FastAPI](https://img.shields.io/badge/framework-FastAPI-009688?logo=fastapi&logoColor=white)
-![Tests](https://img.shields.io/badge/tests-77%20passing-brightgreen)
+![Tests](https://img.shields.io/badge/tests-80%20passing-brightgreen)
 
 ---
 
@@ -334,6 +334,14 @@ curl -s http://localhost:8000/v1/gateway/complete \
   -d '{"messages":[{"role":"user","content":"Say hi in one short sentence."}],"model_name":"gpt-4o-mini"}' | python -m json.tool
 ```
 
+**OpenAI streaming** (`stream: true` → `text/event-stream` SSE proxy). Run **`POST /v1/outputs/validate`** on the reassembled assistant text afterward — see [ADR-001](docs/adrs/adr-001-streaming-output-validation.md).
+
+```bash
+curl -N http://localhost:8000/v1/gateway/complete \
+  -H "Content-Type: application/json" \
+  -d '{"messages":[{"role":"user","content":"Say hi."}],"model_name":"gpt-4o-mini","stream":true}'
+```
+
 **Python client (httpx):**
 
 ```python
@@ -414,10 +422,10 @@ async def echo(safe: Annotated[str, Depends(guardrailed_user_text)]):
 | **Experimental** | Behavior may change without a major version until promoted — watch [CHANGELOG.md](CHANGELOG.md). *Currently:* treat **pipeline-style** orchestration endpoints (if added beyond raw `/v1/gateway/complete`) and **deep policy tuning hooks** as experimental unless explicitly marked stable in OpenAPI summaries. |
 | **Internal** | Python modules under `agentguard.*` may refactor between minors; depend on **HTTP** or pin a **semver** release for production. |
 
-**`POST /v1/gateway/complete` (stable request/response):**
+**`POST /v1/gateway/complete` (stable request; response varies by `stream`):**
 
 - **Request body:** `messages` (array of `{"role","content"}`), optional `use_case`, `model_provider`, `model_name`, `stream`, `metadata`.
-- **Response body:** `correlation_id`, `tenant_id`, `model`, `output` (provider-shaped JSON, e.g. OpenAI `chat.completions`).
+- **Response:** If `stream` is false (default): JSON with `correlation_id`, `tenant_id`, `model`, `output` (provider-shaped, e.g. OpenAI `chat.completions`). If `stream` is true and provider is **OpenAI**: **`text/event-stream`** (SSE); validate output separately — [ADR-001](docs/adrs/adr-001-streaming-output-validation.md).
 
 ---
 
