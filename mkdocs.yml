@@ -65,6 +65,7 @@ nav:
   - Architecture: architecture.md
   - Operations:
       - Quality risk score monitoring: operations/quality-risk-score-monitoring.md
+      - Guardrail latency: operations/guardrail-latency.md
   - API Reference: api-reference.md
   - Modules:
       - AI Gateway: modules/gateway.md

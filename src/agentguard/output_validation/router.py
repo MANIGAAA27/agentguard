@@ -2,15 +2,20 @@
 
 from __future__ import annotations
 
-from fastapi import APIRouter, Depends
+import time
+
+import structlog
+from fastapi import APIRouter, Depends, Request
 
 from agentguard.common.dependencies import get_request_context
+from agentguard.config import settings
 from agentguard.common.models import RequestContext
 from agentguard.output_validation.engine import validate_output
 from agentguard.output_validation.schemas import OutputValidationRequest, OutputValidationResponse
 from agentguard.slop_score.scorer import compute_slop_score
 
 router = APIRouter(prefix="/v1/outputs", tags=["output-validation"])
+logger = structlog.get_logger()
 
 
 @router.post(
@@ -25,9 +30,11 @@ router = APIRouter(prefix="/v1/outputs", tags=["output-validation"])
     ),
 )
 async def validate_output_endpoint(
+    request: Request,
     body: OutputValidationRequest,
     ctx: RequestContext = Depends(get_request_context),
 ) -> OutputValidationResponse:
+    t0 = time.perf_counter()
     decision, checks = await validate_output(
         body.output_text,
         context_text=body.context_text,
@@ -35,6 +42,14 @@ async def validate_output_endpoint(
         require_citations=body.require_citations,
         min_confidence=body.min_confidence,
     )
+    elapsed_ms = (time.perf_counter() - t0) * 1000
+    request.state.agentguard_output_validation_ms = elapsed_ms
+    if settings.enable_guardrail_timing_logs:
+        logger.info(
+            "output_validation.timing",
+            duration_ms=round(elapsed_ms, 3),
+            correlation_id=ctx.correlation_id,
+        )
     meta = dict(body.metadata)
     if body.include_quality_risk_score:
         grounded = bool(body.context_text and body.context_text.strip())
