@@ -27,5 +27,6 @@ AgentGuard is an **open-source FastAPI** service that sits between your applicat
 - [API Reference](api-reference.md)
 - [Guides](guides/adding-a-check.md)
 - [Middleware & control plane](guides/middleware-control-plane.md) — DIY vs managed vs self-hosted FastAPI
+- [Quality risk score — monitoring](operations/quality-risk-score-monitoring.md) — thresholds & drift
 - [Cookbook](cookbook/full-request-lifecycle.md)
 - [LLM-oriented summary (`llms.txt`)](llms.txt)

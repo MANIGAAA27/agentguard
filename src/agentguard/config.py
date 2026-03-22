@@ -61,6 +61,7 @@ class Settings(BaseSettings):
     # Observability
     enable_audit_log: bool = True
     enable_request_tracing: bool = True
+    enable_quality_risk_metrics: bool = False
     cors_origins: list[str] = ["http://localhost:3000"]
 
 

@@ -63,6 +63,8 @@ nav:
   - Comparison: comparison.md
   - Quickstart: quickstart.md
   - Architecture: architecture.md
+  - Operations:
+      - Quality risk score monitoring: operations/quality-risk-score-monitoring.md
   - API Reference: api-reference.md
   - Modules:
       - AI Gateway: modules/gateway.md
