@@ -76,6 +76,7 @@ nav:
       - Slop Score: modules/slop-score.md
   - Guides:
       - Adding a Check: guides/adding-a-check.md
+      - Middleware & control plane: guides/middleware-control-plane.md
       - Creating Prompt Packages: guides/creating-prompt-packages.md
       - Writing Policies: guides/writing-policies.md
       - Deployment: guides/deployment.md

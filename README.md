@@ -76,6 +76,7 @@ AgentGuard is an **open-source FastAPI** service that sits between your applicat
 
 **Who is this for?**
 
+- Teams choosing between **duct-taped per-service checks**, **expensive managed “AI safety” suites**, and a **self-hosted FastAPI control plane** — AgentGuard is the third option ([middleware & control plane](docs/guides/middleware-control-plane.md)).
 - **Platform engineers** building AI-powered products that need safety and quality guarantees
 - **AI/ML teams** deploying LLM agents that require structured guardrails
 - **Compliance and risk teams** enforcing data protection and policy controls
