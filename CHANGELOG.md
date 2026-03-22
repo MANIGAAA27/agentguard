@@ -2,6 +2,22 @@
 
 All notable changes to AgentGuard are documented in this file.
 
+## [0.1.9] - 2026-03-22
+
+Community-driven follow-ups from [DEV discussion](https://dev.to/conwayresearch/comment/35p1m) (GitHub [#8](https://github.com/MANIGAAA27/agentguard/issues/8), [#9](https://github.com/MANIGAAA27/agentguard/issues/9), [#10](https://github.com/MANIGAAA27/agentguard/issues/10), [#11](https://github.com/MANIGAAA27/agentguard/issues/11)).
+
+### Added
+
+- **Docs (#11):** [`docs/guides/middleware-control-plane.md`](docs/guides/middleware-control-plane.md) — DIY vs managed vs self-hosted FastAPI; in-process vs sidecar
+- **Quality risk monitoring (#8):** [`docs/operations/quality-risk-score-monitoring.md`](docs/operations/quality-risk-score-monitoring.md); `POST /v1/outputs/validate` field **`include_quality_risk_score`** → `metadata.quality_risk_score` / `quality_risk_decision`; **`ENABLE_QUALITY_RISK_METRICS`** → in-memory counters via `compute_slop_score()`
+- **Latency (#9):** [`scripts/bench_guardrails.py`](scripts/bench_guardrails.py); [`docs/operations/guardrail-latency.md`](docs/operations/guardrail-latency.md); **`ENABLE_GUARDRAIL_TIMING_LOGS`**, **`EXPOSE_GUARDRAIL_LATENCY_HEADER`**; `GuardrailLatencyHeaderMiddleware` + timing on input/output guardrail routes
+- **Streaming (#10):** `POST /v1/gateway/complete` with **`stream: true`** and **OpenAI** returns **`text/event-stream`** (SSE proxy); [`docs/adrs/adr-001-streaming-output-validation.md`](docs/adrs/adr-001-streaming-output-validation.md); other providers return **400** until supported
+
+### Changed
+
+- **`POST /v1/gateway/complete`:** `response_model=None` so JSON and SSE are both valid OpenAPI responses
+- **MkDocs:** Operations (quality risk, guardrail latency), ADRs (001), gateway module doc updated for streaming
+
 ## [0.1.8] - 2026-03-22
 
 ### Fixed
