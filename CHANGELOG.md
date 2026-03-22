@@ -2,6 +2,22 @@
 
 All notable changes to AgentGuard are documented in this file.
 
+## [0.1.8] - 2026-03-22
+
+### Fixed
+
+- **README trust:** do not present `pip install agentguard` as working until PyPI returns a real package; default install path is **from source** until then
+- **Docs:** state that [GitHub Pages](https://manigaaa27.github.io/agentguard/) is **live**; roadmap PyPI bullet aligned with pending upload
+
+### Added
+
+- **`examples/rag_support_kb.py`** — input guardrails → `POST /v1/retrieval/search` (demo KB) → `POST /v1/gateway/complete`
+- **`examples/agent_with_hitl.py`** — low-risk tool allow vs `require-approval` on a refund-shaped action
+
+### Changed
+
+- **`docs/architecture.md`** — Python SDK row: planned PyPI / install from source today
+
 ## [0.1.7] - 2026-03-22
 
 ### Added

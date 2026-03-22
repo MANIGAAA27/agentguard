@@ -1203,7 +1203,7 @@ MVP uses in-memory counters; production swaps to Prometheus/StatsD via the same 
 
 | Deliverable | Description |
 |------------|-------------|
-| Python SDK | `pip install agentguard` — typed client with async support |
+| Python SDK | Planned: `pip install agentguard` (PyPI) + typed async client — package not published yet; install from source today |
 | TypeScript SDK | `npm install @agentguard/client` — for Node.js and browser |
 | LangChain integration | AgentGuard as a LangChain callback handler / tool |
 | OpenAI-compatible proxy | Drop-in replacement for OpenAI API with guardrails |

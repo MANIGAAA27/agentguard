@@ -8,9 +8,9 @@ AgentGuard is an **open-source FastAPI** service that sits between your applicat
 
 **Positioning (blunt):** AgentGuard is **heuristic, transparent guardrails** you can read and tune in Python — **not** a full enterprise safety stack. It does not replace vendor-backed AI safety platforms, certified compliance programs, dedicated red teams, or managed detection for novel attacks. Use it when you want a **FastAPI-shaped control plane**, clear JSON contracts, and honest limits — not when procurement expects a boxed “AI trust” product with a SOC attached.
 
-**Install:** `pip install agentguard` ([PyPI](https://pypi.org/project/agentguard/) — ensure the package name matches your release; configure [trusted publishing](https://docs.pypi.org/trusted-publishers/) for automated uploads).
+**Install:** **PyPI is not live yet** — `pip install agentguard` will 404 until the first upload. Use **[install from source](#install-and-run)** below. When the package is published, this line will switch to PyPI-first instructions ([trusted publishing](https://docs.pypi.org/trusted-publishers/) + [`.github/workflows/publish-pypi.yml`](.github/workflows/publish-pypi.yml)).
 
-**Docs site (GitHub Pages):** [manigaaa27.github.io/agentguard](https://manigaaa27.github.io/agentguard/) · **Comparison** (vs Guardrails AI, NeMo, LlamaGuard, …): [docs/comparison.md](docs/comparison.md) · **LLM-oriented summary:** [docs/llms.txt](docs/llms.txt)
+**Docs site (GitHub Pages):** [manigaaa27.github.io/agentguard](https://manigaaa27.github.io/agentguard/) — **live** (served from the `gh-pages` branch). **Comparison** (vs Guardrails AI, NeMo, LlamaGuard, …): [docs/comparison.md](docs/comparison.md) · **LLM-oriented summary:** [docs/llms.txt](docs/llms.txt)
 
 ![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue?logo=python&logoColor=white)
 ![License: MIT](https://img.shields.io/badge/license-MIT-green)
@@ -257,14 +257,7 @@ A composite metric (**`quality_risk_score`** in JSON; internal module name **slo
 
 ### Install and Run
 
-**From PyPI (released versions):**
-
-```bash
-pip install agentguard
-uvicorn agentguard.main:app --host 0.0.0.0 --port 8000
-```
-
-**From source (contributors):**
+**From source (default until PyPI is published):**
 
 ```bash
 git clone https://github.com/MANIGAAA27/agentguard.git && cd agentguard
@@ -272,6 +265,8 @@ cp .env.example .env   # optional; set OPENAI_API_KEY for live LLM calls
 pip install -e ".[dev]"
 PYTHONPATH=src uvicorn agentguard.main:app --reload --host 0.0.0.0 --port 8000
 ```
+
+After the first successful PyPI upload, install with `pip install agentguard` and run `uvicorn agentguard.main:app --host 0.0.0.0 --port 8000` (no `PYTHONPATH` needed).
 
 Open the interactive API docs at [http://localhost:8000/docs](http://localhost:8000/docs).
 
@@ -352,6 +347,22 @@ print(r.json())
 ```
 
 Minimal embeddable app (same endpoint, no sidecar): [`examples/minimal_gateway_openai.py`](examples/minimal_gateway_openai.py).
+
+### Runnable examples (with API running)
+
+Start the server (`uvicorn` or Docker), then in another shell (repo root, `.venv` with `httpx` or `pip install -e ".[dev]"`):
+
+| Script | Flow |
+|--------|------|
+| [`examples/minimal_gateway_openai.py`](examples/minimal_gateway_openai.py) | Embed gateway in-process (see file docstring for `uvicorn` line). |
+| [`examples/rag_support_kb.py`](examples/rag_support_kb.py) | Input guardrails → retrieval `/v1/retrieval/search` (demo KB) → `context_text` + `/v1/gateway/complete` (stub or OpenAI). |
+| [`examples/agent_with_hitl.py`](examples/agent_with_hitl.py) | Low-risk tool **allow** vs **refund** path that returns **`require-approval`** (human-in-the-loop gate before your app executes the tool). |
+
+```bash
+export AGENTGUARD_URL=http://127.0.0.1:8000
+python examples/rag_support_kb.py
+python examples/agent_with_hitl.py
+```
 
 ---
 
@@ -699,7 +710,11 @@ agentguard/
 │   ├── output_validation.json      # Output validation JSON schema
 │   ├── action_authorization.json   # Action authorization JSON schema
 │   └── slop_score.json             # Slop score JSON schema
-├── tests/                          # 71+ tests across all modules
+├── examples/
+│   ├── minimal_gateway_openai.py   # In-process FastAPI + gateway
+│   ├── rag_support_kb.py           # RAG-style: guardrails → retrieval → gateway
+│   └── agent_with_hitl.py          # Action governance + HITL (require-approval)
+├── tests/                          # 70+ tests across all modules
 ├── docs/                           # Documentation
 ├── Dockerfile                      # Multi-stage production image
 ├── docker-compose.yml              # App + Redis + PostgreSQL
@@ -869,7 +884,7 @@ The [Roadmap](#roadmap) includes **ML-backed checks**. Until those land, treat t
 ## Roadmap
 
 - **Documentation site** — [GitHub Pages](https://manigaaa27.github.io/agentguard/) via [`.github/workflows/docs.yml`](.github/workflows/docs.yml) (pushes to **`gh-pages`**). **One-time setup:** **Settings → Pages →** source **Deploy from a branch → `gh-pages` / `/ (root)`**. If the workflow cannot push, set **Settings → Actions → General → Workflow permissions → Read and write**.
-- **PyPI package** — `pip install agentguard` for library use without cloning (see [issues](https://github.com/MANIGAAA27/agentguard/issues))
+- **PyPI package** — First upload pending; README will advertise `pip install agentguard` only after it resolves on PyPI ([trusted publishing](https://docs.pypi.org/trusted-publishers/), tag + Release → [`publish-pypi`](.github/workflows/publish-pypi.yml))
 - **ML-backed checks** — Optional classifiers / adapters (e.g. toxicity, injection) alongside transparent heuristics
 - **Dashboard UI** — Web-based admin console for policy management, audit trail browsing, and real-time metrics visualization
 - **SDK clients** — Official Python, TypeScript, and Go client libraries with typed interfaces
