@@ -2,6 +2,7 @@
 
 from __future__ import annotations
 
+from collections.abc import AsyncIterator
 from typing import Any
 
 import httpx
@@ -28,6 +29,7 @@ class ModelProvider:
     async def _openai_complete(
         self, messages: list[dict[str, str]], **kwargs: Any
     ) -> dict[str, Any]:
+        kwargs = {k: v for k, v in kwargs.items() if k != "stream"}
         async with httpx.AsyncClient() as client:
             resp = await client.post(
                 "https://api.openai.com/v1/chat/completions",
@@ -37,6 +39,26 @@ class ModelProvider:
             )
             resp.raise_for_status()
             return resp.json()  # type: ignore[no-any-return]
+
+    async def iter_openai_chat_sse(
+        self,
+        messages: list[dict[str, str]],
+        **kwargs: Any,
+    ) -> AsyncIterator[bytes]:
+        """Stream raw OpenAI chat.completions SSE chunks (``data: {...}\\n\\n``)."""
+        kwargs = {k: v for k, v in kwargs.items() if k != "stream"}
+        body: dict[str, Any] = {"model": self.model, "messages": messages, "stream": True, **kwargs}
+        async with httpx.AsyncClient() as client:
+            async with client.stream(
+                "POST",
+                "https://api.openai.com/v1/chat/completions",
+                headers={"Authorization": f"Bearer {self.api_key}"},
+                json=body,
+                timeout=120.0,
+            ) as resp:
+                resp.raise_for_status()
+                async for chunk in resp.aiter_bytes():
+                    yield chunk
 
     async def _anthropic_complete(
         self, messages: list[dict[str, str]], **kwargs: Any

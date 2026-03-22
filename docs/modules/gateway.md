@@ -13,6 +13,16 @@ The AI Gateway is the single entry point for all LLM and agent requests. It hand
 
 `POST /v1/gateway/complete`
 
+### Non-streaming (default)
+
+JSON body with `messages`; response is `application/json` (`GatewayResponse`).
+
+### Streaming (`stream: true`)
+
+When **`stream`** is `true` and **`model_provider`** is **`openai`**, the response is **`text/event-stream`** (OpenAI SSE passthrough). **Output validation** and **`quality_risk_score`** are not run on that response; buffer the assistant text and call **`POST /v1/outputs/validate`** afterward. See [ADR-001](../adrs/adr-001-streaming-output-validation.md).
+
+Other providers return **400** `streaming_not_supported` until implemented.
+
 ## Source
 
 `src/agentguard/gateway/`
