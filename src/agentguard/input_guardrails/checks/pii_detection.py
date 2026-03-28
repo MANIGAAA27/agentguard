@@ -1,17 +1,16 @@
 """Detect personally identifiable information (PII) in user input via regex heuristics.
 
 **Scope (built-in patterns)**:
-
 - **US-centric phone** (`phone_us`) and **US SSN** format; generic **email**, **credit card**-shaped
   sequences, and **IPv4**-shaped tokens.
-- **Not included**: person names, postal addresses, non-US IDs (e.g. UK NI, EU IBAN
-  as structured national formats), passports — there is **no NER**; regex cannot
-  reliably catch names or free-form addresses.
+- **Included regional**: UK mobile/landline phone (`phone_uk`) and UK National Insurance
+  number (`ni_number`).
+- **Not included**: person names, postal addresses, EU IBAN as structured national formats,
+  passports — there is **no NER**; regex cannot reliably catch names or free-form addresses.
 
 **Extension point**: call :func:`register_pii_pattern` at process startup to add tenant-
 specific or regional patterns without forking this module.
 """
-
 from __future__ import annotations
 
 import re
@@ -24,6 +23,16 @@ _PII_PATTERNS: dict[str, re.Pattern[str]] = {
     "phone_us": re.compile(r"\b(?:\+1[-.\s]?)?\(?\d{3}\)?[-.\s]?\d{3}[-.\s]?\d{4}\b"),
     "credit_card": re.compile(r"\b(?:\d{4}[-\s]?){3}\d{4}\b"),
     "ip_address": re.compile(r"\b\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}\b"),
+    "phone_uk": re.compile(
+        r"\b(?:\+44\s?|0)7\d{3}[\s-]?\d{6}\b"
+        r"|\b(?:\+44\s?|0)(?:\d{2}[\s-]?\d{4}[\s-]?\d{4}"
+        r"|\d{3}[\s-]?\d{3}[\s-]?\d{4}"
+        r"|\d{4}[\s-]?\d{6})\b"
+    ),
+    "ni_number": re.compile(
+        r"\b[A-CEGHJ-PR-TW-Z]{2}\s?\d{2}\s?\d{2}\s?\d{2}\s?[A-D]\b",
+        re.IGNORECASE,
+    ),
 }
 
 _EXTRA_PATTERNS: dict[str, re.Pattern[str]] = {}
@@ -31,7 +40,9 @@ _EXTRA_PATTERNS: dict[str, re.Pattern[str]] = {}
 
 def register_pii_pattern(name: str, pattern: re.Pattern[str] | str) -> None:
     """Register an extra PII regex (e.g. UK phone, national ID). Overwrites same ``name``."""
-    _EXTRA_PATTERNS[name] = pattern if isinstance(pattern, re.Pattern) else re.compile(pattern)
+    _EXTRA_PATTERNS[name] = (
+        pattern if isinstance(pattern, re.Pattern) else re.compile(pattern)
+    )
 
 
 def get_pii_patterns() -> dict[str, re.Pattern[str]]:
@@ -54,6 +65,7 @@ async def check(text: str) -> CheckResult:
             severity=RiskLevel.HIGH,
             metadata={"pii_types": found},
         )
+
     return CheckResult(
         check_name="pii_detection",
         passed=True,
